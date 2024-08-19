@@ -47,4 +47,8 @@ public class DetailService {
         }
         detailRepository.deleteById(id);
     }
+
+    public List<Detail> getDetailsByProductNum(int productNum) {
+        return detailRepository.findDetailsByProductNum(productNum);
+    }
 }

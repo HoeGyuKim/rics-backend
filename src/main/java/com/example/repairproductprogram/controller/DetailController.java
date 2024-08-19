@@ -57,4 +57,14 @@ public class DetailController {
             return ResponseEntity.notFound().build();
         }
     }
+
+    // 자재 번호를 기준으로 상세 정보 조회
+    @GetMapping("/productNum/{productNum}")
+    public ResponseEntity<List<Detail>> getDetailsByProductNum(@PathVariable int productNum) {
+        List<Detail> details = detailService.getDetailsByProductNum(productNum);
+        if (details.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(details);
+    }
 }

@@ -1,7 +1,9 @@
 package com.example.repairproductprogram.service;
 
 import com.example.repairproductprogram.dto.R_Dto;
+import com.example.repairproductprogram.model.Detail;
 import com.example.repairproductprogram.model.ProductList;
+import com.example.repairproductprogram.repository.DetailRepository;
 import com.example.repairproductprogram.repository.ProductListRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
@@ -16,8 +18,9 @@ public class ProductListService {
 
     private final ProductListRepository productListRepository;
 
+
     @Autowired
-    public ProductListService(ProductListRepository productListRepository) {
+    public ProductListService(ProductListRepository productListRepository, DetailRepository detailRepository) {
         this.productListRepository = productListRepository;
     }
 
@@ -41,4 +44,5 @@ public class ProductListService {
                         productList.getProductName() != null ? productList.getProductName() : "Unknown"))
                 .collect(Collectors.toList());
     }
+
 }
