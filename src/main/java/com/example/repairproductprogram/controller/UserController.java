@@ -12,10 +12,12 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-    @PostMapping("/login") // 로그인 창
+    @PostMapping("/login")
     public String login(@RequestBody Member member) {
+        // 이름으로 사용자 조회
         Member existingMember = userService.findByName(member.getName());
-        if (existingMember != null && existingMember.getPassword().equals(member.getPassword())) {
+        // 사원번호와 이름이 일치하는지 확인
+        if (existingMember != null && existingMember.getEmployeeNum().equals(member.getEmployeeNum())) {
             return "로그인 성공";
         } else {
             return "아이디 또는 비밀번호가 잘못되었습니다";

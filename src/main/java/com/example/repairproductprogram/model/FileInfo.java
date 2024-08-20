@@ -15,11 +15,11 @@ public class FileInfo {
 
     @Getter
     @Setter
-    @Column(nullable = false, unique = true)
+    @Column(name = "file_url", nullable = false, unique = true)
     private String fileUrl;  // 파일 URL
 
     @Getter
     @Setter
-    @Column(nullable = false)
+    @Column(name = "file_name", nullable = false)
     private String fileName;
 }

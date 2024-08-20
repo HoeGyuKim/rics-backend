@@ -1,6 +1,7 @@
 package com.example.repairproductprogram.controller;
 
 import com.example.repairproductprogram.NotFoundException.ProductListNotFoundException;
+import com.example.repairproductprogram.dto.DetailDTO;
 import com.example.repairproductprogram.model.Detail;
 import com.example.repairproductprogram.service.DetailService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,13 +14,8 @@ import java.util.Optional;
 @RestController
 @RequestMapping("/api/reconditioned")
 public class DetailController {
-
-    private final DetailService detailService;
-
     @Autowired
-    public DetailController(DetailService detailService) {
-        this.detailService = detailService;
-    }
+    private DetailService detailService;
 
     @GetMapping
     public List<Detail> getDetail() {
@@ -47,7 +43,10 @@ public class DetailController {
         Detail updatedDetail = detailService.saveDetail(detail);
         return ResponseEntity.ok(updatedDetail);
     }
-
+    @GetMapping("/all")
+    public List<Detail> getAllDetails() {
+        return detailService.getAllDetail();
+    }
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteDetail(@PathVariable Long id) {
         try {
@@ -59,12 +58,8 @@ public class DetailController {
     }
 
     // 자재 번호를 기준으로 상세 정보 조회
-    @GetMapping("/productNum/{productNum}")
-    public ResponseEntity<List<Detail>> getDetailsByProductNum(@PathVariable int productNum) {
-        List<Detail> details = detailService.getDetailsByProductNum(productNum);
-        if (details.isEmpty()) {
-            return ResponseEntity.notFound().build();
-        }
-        return ResponseEntity.ok(details);
+    @GetMapping("/details")
+    public List<DetailDTO> getDetails(@RequestParam Integer productNum) {
+        return detailService.getDetailsByProductNumAndRdTrue(productNum);
     }
 }

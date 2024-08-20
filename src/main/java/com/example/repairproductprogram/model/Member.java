@@ -1,12 +1,6 @@
 package com.example.repairproductprogram.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
-import jakarta.persistence.Column;
-
+import jakarta.persistence.*;
 
 @Entity
 @Table(name = "member")
@@ -14,32 +8,31 @@ public class Member {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long employee_num;  // 사원 번호 (비밀번호로 사용)
 
     @Column(name = "name", nullable = false)
-    private String name;
+    private String name;  // 사용자 이름
 
-    @Column(name = "password", nullable = false)
-    private String password;
+    @ManyToOne
+    @JoinColumn(name = "department_code")
+    private Department department;  // 부서 정보
 
-    // 모든 필드를 초기화할 수 있는 생성자
-    public Member(Long id, String name, String password) {
-        this.id = id;
+    // 기본 생성자
+    public Member() {}
+
+    // 생성자
+    public Member(String name, Long employee_num) {
         this.name = name;
-        this.password = password;
+        this.employee_num = employee_num;
     }
 
-    public Member() {
-
+    // Getter와 Setter
+    public Long getEmployeeNum() {
+        return employee_num;
     }
 
-    // Getter 및 Setter
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
+    public void setEmployeeNum(Long employee_num) {
+        this.employee_num = employee_num;
     }
 
     public String getName() {
@@ -48,13 +41,5 @@ public class Member {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
     }
 }

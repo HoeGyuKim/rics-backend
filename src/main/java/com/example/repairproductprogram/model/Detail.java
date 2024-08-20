@@ -3,15 +3,14 @@
     import jakarta.persistence.*;
     import lombok.Getter;
     import lombok.Setter;
+    import org.apache.catalina.Manager;
 
     import java.sql.Date;
 
-    @Getter
-    @Setter
+
     @Entity
     @Table(name = "detail")
     public class Detail {
-
         @Id
         @GeneratedValue(strategy = GenerationType.IDENTITY)
         private Long id;
@@ -32,28 +31,22 @@
         private String fileUrl2;
 
         @ManyToOne
-        @JoinColumn(name = "product_num", referencedColumnName = "product_num", nullable = false)
+        @JoinColumn(name = "product_num", nullable = false)
         private ProductList productList;
 
-        // ID에 대한 getter와 setter
-        public Long getId() {
-            return id;
-        }
+        @ManyToOne
+        @JoinColumn(name = "worker", nullable = false)  // worker 참조
+        private Member worker;
 
-        public void setId(Long id) {
-            this.id = id;
-        }
+        @ManyToOne
+        @JoinColumn(name = "manager", nullable = false)  // manager 참조
+        private Member manager;
 
-        // ProductList 필드의 getter 메소드
-        public Integer getProductNum() {
-            return (productList != null) ? productList.getProductNum() : null;
-        }
-
-        public String getProductName() {
-            return (productList != null) ? productList.getProductName() : "";
-        }
-
-        public void setProductList(ProductList productList) {
-            this.productList = productList;
-        }
+        // Getter와 Setter 메서드들
+        public Long getId() { return id; }
+        public void setId(Long id) { this.id = id; }
+        public Integer getProductNum() { return (productList != null) ? productList.getProductNum() : null; }
+        public String getProductName() { return (productList != null) ? productList.getProductName() : ""; }
+        public void setProductList(ProductList productList) { this.productList = productList; }
     }
+

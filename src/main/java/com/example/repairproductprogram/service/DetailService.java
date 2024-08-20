@@ -1,6 +1,7 @@
 package com.example.repairproductprogram.service;
 
 import com.example.repairproductprogram.NotFoundException.ProductListNotFoundException;
+import com.example.repairproductprogram.dto.DetailDTO;
 import com.example.repairproductprogram.model.Detail;
 import com.example.repairproductprogram.model.ProductList;
 import com.example.repairproductprogram.repository.DetailRepository;
@@ -10,9 +11,9 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+
 @Service
 public class DetailService {
-
     private final DetailRepository detailRepository;
     private final ProductListRepository productListRepository;
 
@@ -47,7 +48,7 @@ public class DetailService {
         detailRepository.deleteById(id);
     }
 
-    public List<Detail> getDetailsByProductNum(int productNum) {
-        return detailRepository.findDetailsByProductNum(productNum);
+    public List<DetailDTO> getDetailsByProductNumAndRdTrue(Integer productNum) {
+        return detailRepository.findDtoByProductNumAndRdTrue(productNum);
     }
 }
