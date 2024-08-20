@@ -1,12 +1,7 @@
     package com.example.repairproductprogram.model;
 
     import jakarta.persistence.*;
-    import lombok.Getter;
-    import lombok.Setter;
-    import org.apache.catalina.Manager;
-
     import java.sql.Date;
-
 
     @Entity
     @Table(name = "detail")
