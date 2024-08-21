@@ -7,10 +7,8 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class ProductListService {
-    private final ProductListRepository productListRepository;
 
     @Autowired
     public ProductListService(ProductListRepository productListRepository, DetailRepository detailRepository) {
-        this.productListRepository = productListRepository;
     }
 }
