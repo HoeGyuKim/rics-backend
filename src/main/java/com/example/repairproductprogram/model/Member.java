@@ -14,7 +14,7 @@ public class Member {
     private String name;  // 사용자 이름
 
     @ManyToOne
-    @JoinColumn(name = "department_code")
+    @JoinColumn(name = "department_code", nullable = false)
     private Department department;  // 부서 정보
 
     // 기본 생성자
