@@ -8,38 +8,38 @@
 
 
     @Entity
-    @Table(name = "detail")
+    @Table(name = "detail") // 제품 모든 상세정보 DB 테이블
     public class Detail {
         @Id
         @GeneratedValue(strategy = GenerationType.IDENTITY)
-        private Long id;
+        private Long id;    // 고유 번호
 
         @Column(name = "rd")
-        private boolean rd;
+        private boolean rd; // r: 재생품 or d: 요수리품  여부    (재생품 먼저 만들고 요수리품 추가할 예정)
 
         @Column(name = "date")
-        private Date date;
+        private Date date;  // 완료일자
 
         @Column(name = "serial_num")
-        private String serialNum;
+        private String serialNum;   // 시리얼 번호
 
         @Column(name = "file_url1")
-        private String fileUrl1;
+        private String fileUrl1;    // 첨부파일 url
 
         @Column(name = "file_url2")
-        private String fileUrl2;
+        private String fileUrl2;    // 첨부파일 url
 
         @ManyToOne
         @JoinColumn(name = "product_num", nullable = false)
-        private ProductList productList;
+        private ProductList productList;    //고유 참조 - 자재 번호 (productList 참조)
 
         @ManyToOne
-        @JoinColumn(name = "worker", nullable = false)  // worker 참조
-        private Member worker;
+        @JoinColumn(name = "worker_num", nullable = false)  // worker 참조
+        private Member worker;  //작업자   //고유 참조 - 사원 번호 (member 참조)
 
         @ManyToOne
-        @JoinColumn(name = "manager", nullable = false)  // manager 참조
-        private Member manager;
+        @JoinColumn(name = "manager_num", nullable = false)  // manager 참조
+        private Member manager; //관리자
 
         // Getter와 Setter 메서드들
         public Long getId() { return id; }

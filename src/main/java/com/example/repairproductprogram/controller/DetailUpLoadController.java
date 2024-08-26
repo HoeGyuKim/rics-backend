@@ -1,4 +1,5 @@
 package com.example.repairproductprogram.controller;
+
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -8,10 +9,9 @@ import java.nio.file.Paths;
 import java.util.UUID;
 
 @RestController
-
 @RequestMapping("/api/upload")
 public class DetailUpLoadController {
-    private static final String UPLOAD_DIR = "uploads/";
+    private static final String UPLOAD_DIR = "uploads";
 
     @PostMapping
     public String uploadFile(@RequestParam("file") MultipartFile file) {
