@@ -8,7 +8,7 @@ public class Member {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long employee_num;  // 사원 번호 (비밀번호로 사용)
+    private Long employeeNum;  // 사원 번호 (비밀번호로 사용)
 
     @Column(name = "name", nullable = false)
     private String name;  // 사용자 이름
@@ -21,18 +21,18 @@ public class Member {
     public Member() {}
 
     // 생성자
-    public Member(String name, Long employee_num) {
+    public Member(String name, Long employeeNum) {
         this.name = name;
-        this.employee_num = employee_num;
+        this.employeeNum = employeeNum;
     }
 
     // Getter와 Setter
     public Long getEmployeeNum() {
-        return employee_num;
+        return employeeNum;
     }
 
     public void setEmployeeNum(Long employee_num) {
-        this.employee_num = employee_num;
+        this.employeeNum = employee_num;
     }
 
     public String getName() {

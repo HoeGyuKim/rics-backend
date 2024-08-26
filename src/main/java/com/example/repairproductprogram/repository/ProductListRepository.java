@@ -9,14 +9,14 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface ProductListRepository extends JpaRepository<ProductList, Integer> {
+public interface ProductListRepository extends JpaRepository<ProductList, Long> {
 
-    @Query("SELECT p FROM ProductList p WHERE p.product_num = :productNum")
-    List<ProductList> findByProductNum(@Param("productNum") Integer productNum);
+    @Query("SELECT p FROM ProductList p WHERE p.productNum = :productNum")
+    List<ProductList> findByProductNum(@Param("productNum") Long productNum);
 
-    @Query("SELECT p FROM ProductList p WHERE p.product_name LIKE %:productName%")
+    @Query("SELECT p FROM ProductList p WHERE p.productName LIKE %:productName%")
     List<ProductList> findByProductName(@Param("productName") String productName);
 
-    @Query("SELECT COUNT(p) > 0 FROM ProductList p WHERE p.product_num = :productNum")
-    boolean existsByProductNum(@Param("productNum") Integer productNum);
+    @Query("SELECT COUNT(p) > 0 FROM ProductList p WHERE p.productNum = :productNum")
+    boolean existsByProductNum(@Param("productNum") Long productNum);
 }

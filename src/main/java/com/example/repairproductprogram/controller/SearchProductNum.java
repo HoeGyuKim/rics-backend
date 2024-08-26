@@ -30,7 +30,7 @@ public class SearchProductNum {
         }
     }
     @GetMapping("/exists")
-    public ResponseEntity<Boolean> checkProductExists(@RequestParam("productNum") int productNum) {
+    public ResponseEntity<Boolean> checkProductExists(@RequestParam("productNum") Long productNum) {
         boolean exists = productListRepository.existsByProductNum(productNum);
         return ResponseEntity.ok(exists);
     }
@@ -45,7 +45,7 @@ public class SearchProductNum {
 
         if ("product_num".equals(filterBy)) {
             try {
-                Integer product_num = Integer.parseInt(searchTerm);
+                Long product_num = Long.parseLong(searchTerm);
                 return productListRepository.findByProductNum(product_num);
             } catch (NumberFormatException e) {
                 return Collections.emptyList();

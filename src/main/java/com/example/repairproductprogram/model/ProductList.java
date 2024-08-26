@@ -11,25 +11,35 @@ import lombok.Setter;
 public class ProductList {
     @Id
     @Column(name = "product_num")
-    private Integer product_num;
+    private Long productNum;
 
     @Column(name = "product_name")
-    private String product_name;
+    private String productName;
 
-    // Getter와 Setter 메서드들
-    public Integer getProductNum() {
-        return product_num;
+    // 기본 생성자
+    public ProductList() {
     }
 
-    public void setProductNum(Integer product_num) {
-        this.product_num = product_num;
+    // productNum을 인자로 받는 생성자 추가
+    public ProductList(Long productNum) {
+        this.productNum = productNum;
+    }
+
+    // Getter와 Setter 메서드들
+    public Long getProductNum() {
+        return productNum;
+    }
+
+    public void setProductNum(Long product_num) {
+        this.productNum = product_num;
     }
 
     public String getProductName() {
-        return product_name;
+        return productName;
     }
 
     public void setProductName(String product_name) {
-        this.product_name = product_name;
+        this.productName = product_name;
     }
 }
+

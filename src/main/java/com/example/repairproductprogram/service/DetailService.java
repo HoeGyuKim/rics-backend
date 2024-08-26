@@ -10,7 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class DetailService {
@@ -23,16 +23,19 @@ public class DetailService {
         this.productListRepository = productListRepository;
     }
 
-    public List<Detail> getAllDetail() {
-        return detailRepository.findAll();
+    public List<DetailDTO> getDetailsByProductNumAndRdTrue(Long productNum) {
+        List<Detail> details = detailRepository.findByProductListProductNumAndRdTrue(productNum);
+        return details.stream()
+                .map(this::toDetailDTO)
+                .collect(Collectors.toList());
     }
 
-    public Optional<Detail> getDetailById(Long id) {
-        return detailRepository.findById(id);
+    public Detail getDetailById(Long id) {
+        return detailRepository.findById(id).orElse(null);
     }
 
     public Detail saveDetail(Detail detail) {
-        Integer productNum = detail.getProductNum();
+        Long productNum = detail.getProductNum();
         if (productNum != null && productNum > 0) {
             ProductList productList = productListRepository.findById(productNum)
                     .orElseThrow(() -> new ProductListNotFoundException("ProductList with productNum " + productNum + " not found."));
@@ -41,14 +44,21 @@ public class DetailService {
         return detailRepository.save(detail);
     }
 
-    public void deleteDetail(Long id) {
-        if (!detailRepository.existsById(id)) {
-            throw new ProductListNotFoundException("Detail with ID " + id + " not found.");
+    // DTO 변환 메서드
+    public DetailDTO toDetailDTO(Detail detail) {
+        if (detail == null) {
+            return null;
         }
-        detailRepository.deleteById(id);
-    }
-
-    public List<DetailDTO> getDetailsByProductNumAndRdTrue(Integer productNum) {
-        return detailRepository.findDtoByProductNumAndRdTrue(productNum);
+        DetailDTO dto = new DetailDTO();
+        dto.setId(detail.getId());
+        dto.setProductNum(detail.getProductNum());
+        dto.setProductName(detail.getProductName());
+        dto.setDate(detail.getDate());
+        dto.setSerialNum(detail.getSerialNum());
+        dto.setFileUrl1(detail.getFileUrl1());
+        dto.setFileUrl2(detail.getFileUrl2());
+        dto.setWorker(detail.getWorker().getName());
+        dto.setManager(detail.getManager().getName());
+        return dto;
     }
 }

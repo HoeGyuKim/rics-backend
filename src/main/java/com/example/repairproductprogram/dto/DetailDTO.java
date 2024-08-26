@@ -4,21 +4,27 @@ import java.sql.Date;
 
 public class DetailDTO {
     private Long id;
-    private Integer productNum;
+    private Long productNum;
     private String productName;
     private Date date;
     private String serialNum;
+    private String fileUrl1;
+    private String fileUrl2;
+    private String worker;  // 사원의 이름
+    private String manager; // 관리자의 이름
 
-    // 기본 생성자 (필수)
+    // 기본 생성자
     public DetailDTO() {}
 
     // 모든 필드를 포함하는 생성자
-    public DetailDTO(Long id, Integer productNum, String productName, Date date, String serialNum) {
+    public DetailDTO(Long id, Long productNum, String productName, Date date, String serialNum, String worker, String manager) {
         this.id = id;
         this.productNum = productNum;
         this.productName = productName;
         this.date = date;
         this.serialNum = serialNum;
+        this.worker = worker;
+        this.manager = manager;
     }
 
     // Getters and Setters
@@ -30,11 +36,11 @@ public class DetailDTO {
         this.id = id;
     }
 
-    public Integer getProductNum() {
+    public Long getProductNum() {
         return productNum;
     }
 
-    public void setProductNum(Integer productNum) {
+    public void setProductNum(Long productNum) {
         this.productNum = productNum;
     }
 
@@ -60,5 +66,37 @@ public class DetailDTO {
 
     public void setSerialNum(String serialNum) {
         this.serialNum = serialNum;
+    }
+
+    public String getFileUrl1() {
+        return fileUrl1;
+    }
+
+    public void setFileUrl1(String fileUrl1) {
+        this.fileUrl1 = fileUrl1;
+    }
+
+    public String getFileUrl2() {
+        return fileUrl2;
+    }
+
+    public void setFileUrl2(String fileUrl2) {
+        this.fileUrl2 = fileUrl2;
+    }
+
+    public String getWorker() {
+        return worker;
+    }
+
+    public void setWorker(String worker) {
+        this.worker = worker;
+    }
+
+    public String getManager() {
+        return manager;
+    }
+
+    public void setManager(String manager) {
+        this.manager = manager;
     }
 }
