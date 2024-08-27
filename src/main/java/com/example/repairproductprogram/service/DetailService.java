@@ -39,7 +39,8 @@ public class DetailService {
         if (productNum != null && productNum > 0) {
             ProductList productList = productListRepository.findById(productNum)
                     .orElseThrow(() -> new ProductListNotFoundException("ProductList with productNum " + productNum + " not found."));
-            detail.setProductList(productList);
+            detail.setProductNum(productList.getProductNum());
+            detail.setProductName(productList.getProductNum());
         }
         return detailRepository.save(detail);
     }
@@ -59,6 +60,7 @@ public class DetailService {
         dto.setFileUrl2(detail.getFileUrl2());
         dto.setWorker(detail.getWorker().getName());
         dto.setManager(detail.getManager().getName());
+        dto.setDeaprtmentName(detail.getWorker().getDepartment().getDepartmentName());
         return dto;
     }
 }

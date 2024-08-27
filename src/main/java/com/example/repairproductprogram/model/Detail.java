@@ -69,6 +69,10 @@ public class Detail {
     public void setProductNum(Long productNum) {
         this.productList = new ProductList(productNum);
     }
+    @JsonProperty("productName")
+    public void setProductName(Long productNum) {
+        this.productList = new ProductList(productNum);
+    }
 
     public Long getProductNum() {
         return (productList != null) ? productList.getProductNum() : null;
@@ -76,10 +80,6 @@ public class Detail {
 
     public String getProductName() {
         return (productList != null) ? productList.getProductName() : "";
-    }
-
-    public void setProductList(ProductList productList) {
-        this.productList = productList;
     }
 
     public Member getWorker() { return worker; }

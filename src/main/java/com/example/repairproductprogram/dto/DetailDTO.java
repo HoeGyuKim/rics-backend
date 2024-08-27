@@ -12,12 +12,13 @@ public class DetailDTO {
     private String fileUrl2;
     private String worker;  // 사원의 이름
     private String manager; // 관리자의 이름
+    private String deaprtmentName;
 
     // 기본 생성자
     public DetailDTO() {}
 
     // 모든 필드를 포함하는 생성자
-    public DetailDTO(Long id, Long productNum, String productName, Date date, String serialNum, String worker, String manager) {
+    public DetailDTO(Long id, Long productNum, String productName, Date date, String serialNum, String worker, String manager, String DepartmentName) {
         this.id = id;
         this.productNum = productNum;
         this.productName = productName;
@@ -25,6 +26,7 @@ public class DetailDTO {
         this.serialNum = serialNum;
         this.worker = worker;
         this.manager = manager;
+        this.deaprtmentName = DepartmentName;
     }
 
     // Getters and Setters
@@ -98,5 +100,12 @@ public class DetailDTO {
 
     public void setManager(String manager) {
         this.manager = manager;
+    }
+    public String getDeaprtmentName() {
+        return deaprtmentName;
+    }
+
+    public void setDeaprtmentName(String deaprtmentName) {
+        this.deaprtmentName = deaprtmentName;
     }
 }
