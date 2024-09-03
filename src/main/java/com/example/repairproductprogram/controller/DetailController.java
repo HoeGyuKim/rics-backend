@@ -68,11 +68,14 @@ public class DetailController {
 
     }
     @GetMapping("/detailsBySerialNum")
-    public ResponseEntity <List<DetailDTO>>getDetailsByProductNumAndSerialNum(@RequestParam Long productNum, @RequestParam String serialNum){
-        List<DetailDTO> detailDTOs = detailRepository.findByProductListProductNumAndSerialNum(productNum, serialNum).stream()
+    public ResponseEntity<List<DetailDTO>> getDetailsByProductNumAndSerialNum(
+            @RequestParam Long productNum, @RequestParam String serialNum) {
+        List<DetailDTO> detailDTOs = detailRepository.findByProductListProductNumAndSerialNum(productNum, serialNum)
+                .stream()
                 .map(detailService::toDetailDTO)
                 .collect(Collectors.toList());
         return ResponseEntity.ok(detailDTOs);
     }
+
 
 }

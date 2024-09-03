@@ -51,13 +51,10 @@ public class DetailService {
             return null;
         }
         DetailDTO dto = new DetailDTO();
-        dto.setId(detail.getId());
         dto.setProductNum(detail.getProductNum());
         dto.setProductName(detail.getProductName());
         dto.setDate(detail.getDate());
         dto.setSerialNum(detail.getSerialNum());
-        dto.setFileUrl1(detail.getFileUrl1());
-        dto.setFileUrl2(detail.getFileUrl2());
         dto.setWorker(detail.getWorker().getName());
         dto.setManager(detail.getManager().getName());
         dto.setDeaprtmentName(detail.getWorker().getDepartment().getDepartmentName());
