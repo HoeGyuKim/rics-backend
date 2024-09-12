@@ -51,6 +51,9 @@ public class Detail {
 
     // Getter와 Setter 메서드들
     public Long getId() { return id; }
+    public String getFormattedId() {
+        return String.format("%06d", id);
+    }
     public void setId(Long id) { this.id = id; }
 
     public boolean isRd() { return rd; }

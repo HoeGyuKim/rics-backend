@@ -26,7 +26,7 @@ public class DetailService {
     public List<DetailDTO> getDetailsByProductNumAndRdTrue(Long productNum) {
         List<Detail> details = detailRepository.findByProductListProductNumAndRdTrue(productNum);
         return details.stream()
-                .map(this::toDetailDTO)
+                .map(this::toDetailListDTO)
                 .collect(Collectors.toList());
     }
 
@@ -44,13 +44,31 @@ public class DetailService {
         }
         return detailRepository.save(detail);
     }
+    public DetailDTO toDetailWithFileDTO(Detail detail) {
+        if (detail == null) {
+            return null;
+        }
+        DetailDTO dtoWithFile = new DetailDTO();
+        dtoWithFile.setId(detail.getId());
+        dtoWithFile.setProductNum(detail.getProductNum());
+        dtoWithFile.setProductName(detail.getProductName());
+        dtoWithFile.setDate(detail.getDate());
+        dtoWithFile.setSerialNum(detail.getSerialNum());
+        dtoWithFile.setWorker(detail.getWorker().getName());
+        dtoWithFile.setManager(detail.getManager().getName());
+        dtoWithFile.setDeaprtmentName(detail.getWorker().getDepartment().getDepartmentName());
+        dtoWithFile.setUrl1(detail.getFileUrl1());
+        dtoWithFile.setUrl2(detail.getFileUrl2());
 
+        return dtoWithFile;
+    }
     // DTO 변환 메서드
-    public DetailDTO toDetailDTO(Detail detail) {
+    public DetailDTO toDetailListDTO(Detail detail) {
         if (detail == null) {
             return null;
         }
         DetailDTO dto = new DetailDTO();
+        dto.setId(detail.getId());
         dto.setProductNum(detail.getProductNum());
         dto.setProductName(detail.getProductName());
         dto.setDate(detail.getDate());

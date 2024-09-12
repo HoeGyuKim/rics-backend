@@ -3,29 +3,44 @@ package com.example.repairproductprogram.dto;
 import java.sql.Date;
 
 public class DetailDTO {
+    private Long id;
     private Long productNum;
     private String productName;
     private Date date;
     private String serialNum;
     private String worker;  // 사원의 이름
     private String manager; // 관리자의 이름
-    private String deaprtmentName;
+    private String deprtmentName;
+    private String url1;
+    private String url2;
 
     // 기본 생성자
     public DetailDTO() {}
 
     // 모든 필드를 포함하는 생성자
-    public DetailDTO(Long id, Long productNum, String productName, Date date, String serialNum, String worker, String manager, String DepartmentName) {
+    public DetailDTO(Long id, Long productNum, String productName, Date date, String serialNum, String worker, String manager, String departmentName, String url1, String url2) {
+        this.id = id;
         this.productNum = productNum;
         this.productName = productName;
         this.date = date;
         this.serialNum = serialNum;
         this.worker = worker;
         this.manager = manager;
-        this.deaprtmentName = DepartmentName;
+        this.deprtmentName = departmentName;
+        this.url1 = url1;
+        this.url2 = url2;
+
     }
 
     // Getters and Setters
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
     public Long getProductNum() {
         return productNum;
     }
@@ -74,10 +89,22 @@ public class DetailDTO {
         this.manager = manager;
     }
     public String getDeaprtmentName() {
-        return deaprtmentName;
+        return deprtmentName;
     }
 
     public void setDeaprtmentName(String deaprtmentName) {
-        this.deaprtmentName = deaprtmentName;
+        this.deprtmentName = deaprtmentName;
+    }
+    public String getUrl1() {
+        return url1;
+    }
+    public void setUrl1(String fileUrl1) {
+        this.url1 = fileUrl1;
+    }
+    public String getUrl2() {
+        return url2;
+    }
+    public void setUrl2(String fileUrl2) {
+        this.url2 = fileUrl2;
     }
 }

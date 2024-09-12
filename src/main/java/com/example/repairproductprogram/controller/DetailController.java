@@ -12,8 +12,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.sql.Date;
-import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -23,14 +21,12 @@ public class DetailController {
 
     private final DetailService detailService;
     private final DetailRepository detailRepository;
-    private final UserRepository userRepository;
     private final UserService userService;
 
     @Autowired
     public DetailController(DetailService detailService, DetailRepository detailRepository, UserRepository userRepository, UserService userService) {
         this.detailService = detailService;
         this.detailRepository = detailRepository;
-        this.userRepository = userRepository;
         this.userService = userService;
     }
 
@@ -39,8 +35,8 @@ public class DetailController {
         Detail detail = detailService.getDetailById(id);
 
         if (detail != null) {
-            DetailDTO detailDTO = detailService.toDetailDTO(detail);
-            return ResponseEntity.ok(detailDTO);
+            DetailDTO detailWithFileDTO = detailService.toDetailWithFileDTO(detail);
+            return ResponseEntity.ok(detailWithFileDTO);
         } else {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
         }
@@ -62,7 +58,7 @@ public class DetailController {
         }
 
         List<DetailDTO> detailDTOs = detailRepository.findByProductListProductNumAndWorker(productNum, worker).stream()
-                .map(detailService::toDetailDTO)
+                .map(detailService::toDetailListDTO)
                 .collect(Collectors.toList());
         return ResponseEntity.ok(detailDTOs);
 
@@ -72,7 +68,7 @@ public class DetailController {
             @RequestParam Long productNum, @RequestParam String serialNum) {
         List<DetailDTO> detailDTOs = detailRepository.findByProductListProductNumAndSerialNum(productNum, serialNum)
                 .stream()
-                .map(detailService::toDetailDTO)
+                .map(detailService::toDetailListDTO)
                 .collect(Collectors.toList());
         return ResponseEntity.ok(detailDTOs);
     }
