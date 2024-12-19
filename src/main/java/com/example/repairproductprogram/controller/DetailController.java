@@ -44,7 +44,7 @@ public class DetailController {
 
     @GetMapping("/details")
     public ResponseEntity<List<DetailDTO>> getDetailsByProductNum(@RequestParam Long productNum) {
-        List<DetailDTO> detailDTOs = detailService.getDetailsByProductNumAndRdTrue(productNum);
+        List<DetailDTO> detailDTOs = detailService.getDetailsByProductNum(productNum);
         List<DetailDTO> top10Details = detailDTOs.stream()
                 .limit(10)
                 .collect(Collectors.toList());

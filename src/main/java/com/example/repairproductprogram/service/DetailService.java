@@ -23,8 +23,8 @@ public class DetailService {
         this.productListRepository = productListRepository;
     }
 
-    public List<DetailDTO> getDetailsByProductNumAndRdTrue(Long productNum) {
-        List<Detail> details = detailRepository.findByProductListProductNumAndRdTrue(productNum);
+    public List<DetailDTO> getDetailsByProductNum(Long productNum) {
+        List<Detail> details = detailRepository.findByProductListProductNum(productNum);
         return details.stream()
                 .map(this::toDetailListDTO)
                 .collect(Collectors.toList());

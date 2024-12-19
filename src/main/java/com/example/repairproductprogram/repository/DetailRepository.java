@@ -13,10 +13,9 @@ import java.util.List;
 
 @Repository
 public interface DetailRepository extends JpaRepository<Detail, Long> {
-    List<Detail> findByProductListProductNumAndRdTrue(Long productNum);
+    List<Detail> findByProductListProductNum(Long productNum);
 
     List<Detail> findByProductListProductNumAndWorker(Long productNum, Member worker);
 
     List<Detail> findByProductListProductNumAndSerialNum(Long productNum, String serialNum);
 }
-

@@ -24,7 +24,7 @@ public class Detail {
     private String memo;
 
     @ManyToOne
-    @JoinColumn(name = "approval_id", nullable = false)
+    @JoinColumn(name = "approval_id", nullable = true)
     private Approval approval;
 
     @ManyToOne(cascade = CascadeType.ALL)
@@ -57,11 +57,53 @@ public class Detail {
     public void setProductName(Long productNum) {
         this.productList = new ProductList(productNum);
     }
+    @Transient // DB에 저장하지 않기 위해 Transient로 설정
+    @JsonProperty("workerNum")
+    private Long workerNum;
+
+    @Transient
+    @JsonProperty("managerNum")
+    private Long managerNum;
+    @ManyToOne
+    @JoinColumn(name = "worker_num", nullable = false)
+    private Member worker;
+
+    @ManyToOne
+    @JoinColumn(name = "manager_num", nullable = false)
+    private Member manager;
     public Long getProductNum() {
         return (productList != null) ? productList.getProductNum() : null;
     }
     public String getProductName() {
         return (productList != null) ? productList.getProductName() : "";
+    }
+    public Member getWorker() { return worker; }
+    public void setWorker(Member worker) { this.worker = worker; }
+
+    public Member getManager() { return manager; }
+    public void setManager(Member manager) { this.manager = manager; }
+
+    // workerNum과 managerNum을 받아와서 Member 객체를 설정하는 메서드 추가
+    @JsonProperty("workerNum")
+    public void setWorkerNum(Long workerNum) {
+        this.workerNum = workerNum;
+        this.worker = new Member();
+        this.worker.setEmployeeNum(workerNum);
+    }
+
+    public Long getWorkerNum() {
+        return workerNum;
+    }
+
+    @JsonProperty("managerNum")
+    public void setManagerNum(Long managerNum) {
+        this.managerNum = managerNum;
+        this.manager = new Member();
+        this.manager.setEmployeeNum(managerNum);
+    }
+
+    public Long getManagerNum() {
+        return managerNum;
     }
     public String getMemo() { return memo; }
     public void setMemo(String memo) { this.memo = memo; }
