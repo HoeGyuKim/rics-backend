@@ -54,11 +54,11 @@ public class DetailService {
         dtoWithFile.setProductName(detail.getProductName());
         dtoWithFile.setDate(detail.getDate());
         dtoWithFile.setSerialNum(detail.getSerialNum());
-        dtoWithFile.setWorker(detail.getWorker().getName());
-        dtoWithFile.setManager(detail.getManager().getName());
-        dtoWithFile.setDeaprtmentName(detail.getWorker().getDepartment().getDepartmentName());
-        dtoWithFile.setUrl1(detail.getFileUrl1());
-        dtoWithFile.setUrl2(detail.getFileUrl2());
+        dtoWithFile.setWorker(detail.getApproval().getWorker().getName());
+        dtoWithFile.setManager(detail.getApproval().getManager().getName());
+        dtoWithFile.setDeaprtmentName(detail.getApproval().getWorker().getDepartment().getDepartmentName());
+        dtoWithFile.setUrl1(detail.getFileUrl().getUrl1());
+        dtoWithFile.setUrl2(detail.getFileUrl().getUrl2());
 
         return dtoWithFile;
     }
@@ -73,9 +73,10 @@ public class DetailService {
         dto.setProductName(detail.getProductName());
         dto.setDate(detail.getDate());
         dto.setSerialNum(detail.getSerialNum());
-        dto.setWorker(detail.getWorker().getName());
-        dto.setManager(detail.getManager().getName());
-        dto.setDeaprtmentName(detail.getWorker().getDepartment().getDepartmentName());
+        dto.setWorker(detail.getApproval().getManager().getName());
+        dto.setManager(detail.getApproval().getManager().getName());
+        dto.setDeaprtmentName(detail.getApproval().getWorker().getDepartment().getDepartmentName());
+        dto.setMemo(detail.getMemo());
         return dto;
     }
 }

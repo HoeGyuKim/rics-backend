@@ -13,6 +13,9 @@ public class Member {
     @Column(name = "name", nullable = false)
     private String name;  // 사용자 이름
 
+    @Column(name = "is_manager", nullable = false)
+    private boolean isManager;  // 관리자 여부
+
     @ManyToOne
     @JoinColumn(name = "department_code", nullable = false)
     private Department department;  // 부서 정보

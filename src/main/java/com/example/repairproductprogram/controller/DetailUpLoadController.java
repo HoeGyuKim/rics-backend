@@ -1,6 +1,7 @@
 package com.example.repairproductprogram.controller;
 
 import com.example.repairproductprogram.model.Detail;
+import com.example.repairproductprogram.model.FileUrl;
 import com.example.repairproductprogram.service.DetailService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -67,15 +68,19 @@ public class DetailUpLoadController {
             ObjectMapper objectMapper = new ObjectMapper();
             Detail detail = objectMapper.readValue(detailDataJson, Detail.class);
 
+            FileUrl fileUrl = new FileUrl();
+
             if (file1 != null && !file1.isEmpty()) {
                 String fileUrl1 = saveFile(file1);
-                detail.setFileUrl1(fileUrl1);
+                fileUrl.setUrl1(fileUrl1);
             }
 
             if (file2 != null && !file2.isEmpty()) {
                 String fileUrl2 = saveFile(file2);
-                detail.setFileUrl2(fileUrl2);
+                fileUrl.setUrl2(fileUrl2);
             }
+
+            detail.setFileUrl(fileUrl);
 
             // 데이터를 데이터베이스에 저장
             detailService.saveDetail(detail);

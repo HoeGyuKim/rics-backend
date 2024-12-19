@@ -1,8 +1,7 @@
 package com.example.repairproductprogram.controller;
 
+import com.example.repairproductprogram.Util.AESUtil;
 import com.google.zxing.BarcodeFormat;
-import com.google.zxing.EncodeHintType;
-import com.google.zxing.WriterException;
 import com.google.zxing.client.j2se.MatrixToImageWriter;
 import com.google.zxing.common.BitMatrix;
 import com.google.zxing.qrcode.QRCodeWriter;
@@ -14,43 +13,46 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import java.io.File;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
+import javax.crypto.SecretKey;
+import java.io.ByteArrayOutputStream;
 
 @RestController
 @RequestMapping("/qrcode")
 public class QRCodeController {
 
-    private static final String UPLOAD_DIR = "uploads";
+    // 비밀키 생성 및 문자열로 변환하여 저장 (실제 애플리케이션에서는 안전하게 저장해야 함)
+    private static final SecretKey secretKey;
+    private static final String encodedSecretKey;
+
+    static {
+        try {
+            secretKey = AESUtil.generateSecretKey();
+            encodedSecretKey = AESUtil.encodeKey(secretKey);
+        } catch (Exception e) {
+            throw new RuntimeException("Failed to generate AES key", e);
+        }
+    }
 
     @GetMapping(value = "/{id}", produces = MediaType.IMAGE_PNG_VALUE)
-    public ResponseEntity<byte[]> generateQRCode(@PathVariable String id) {
+    public ResponseEntity<byte[]> generateEncryptedQRCode(@PathVariable String id) {
         try {
-            // QR Code 생성
+            // ID 암호화
+            String encryptedId = AESUtil.encrypt(id, secretKey);
+
+            // QR 코드 생성
             QRCodeWriter qrCodeWriter = new QRCodeWriter();
-            BitMatrix bitMatrix = qrCodeWriter.encode(id, BarcodeFormat.QR_CODE, 200, 200);
+            BitMatrix bitMatrix = qrCodeWriter.encode(encryptedId, BarcodeFormat.QR_CODE, 200, 200);
 
-            // uploads 디렉토리가 없으면 생성
-            File uploadDir = new File(UPLOAD_DIR);
-            if (!uploadDir.exists()) {
-                uploadDir.mkdirs();
-            }
+            ByteArrayOutputStream pngOutputStream = new ByteArrayOutputStream();
+            MatrixToImageWriter.writeToStream(bitMatrix, "PNG", pngOutputStream);
+            byte[] pngData = pngOutputStream.toByteArray();
 
-            // QR 코드 이미지를 uploads 디렉토리에 저장
-            Path filePath = Paths.get(UPLOAD_DIR, id + ".png");
-            MatrixToImageWriter.writeToPath(bitMatrix, "PNG", filePath);
-
-            // 저장된 파일을 바이트 배열로 읽어 클라이언트에 전송
-            byte[] pngData = Files.readAllBytes(filePath);
+            // 이미지 데이터를 ResponseEntity로 반환
             HttpHeaders headers = new HttpHeaders();
             headers.setContentType(MediaType.IMAGE_PNG);
             return new ResponseEntity<>(pngData, headers, HttpStatus.OK);
 
-        } catch (WriterException | IOException e) {
+        } catch (Exception e) {
             e.printStackTrace();
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
