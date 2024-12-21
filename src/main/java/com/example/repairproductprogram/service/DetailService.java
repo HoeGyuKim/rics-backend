@@ -2,13 +2,16 @@ package com.example.repairproductprogram.service;
 
 import com.example.repairproductprogram.NotFoundException.ProductListNotFoundException;
 import com.example.repairproductprogram.dto.DetailDTO;
+import com.example.repairproductprogram.model.Approval;
 import com.example.repairproductprogram.model.Detail;
 import com.example.repairproductprogram.model.ProductList;
+import com.example.repairproductprogram.repository.ApprovalRepository;
 import com.example.repairproductprogram.repository.DetailRepository;
 import com.example.repairproductprogram.repository.ProductListRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -16,11 +19,13 @@ import java.util.stream.Collectors;
 public class DetailService {
     private final DetailRepository detailRepository;
     private final ProductListRepository productListRepository;
+    private final ApprovalRepository approvalRepository;
 
     @Autowired
-    public DetailService(DetailRepository detailRepository, ProductListRepository productListRepository) {
+    public DetailService(DetailRepository detailRepository, ProductListRepository productListRepository, ApprovalRepository approvalRepository) {
         this.detailRepository = detailRepository;
         this.productListRepository = productListRepository;
+        this.approvalRepository = approvalRepository;
     }
 
     public List<DetailDTO> getDetailsByProductNum(Long productNum) {
@@ -44,6 +49,7 @@ public class DetailService {
         }
         return detailRepository.save(detail);
     }
+
     public DetailDTO toDetailWithFileDTO(Detail detail) {
         if (detail == null) {
             return null;
@@ -59,6 +65,7 @@ public class DetailService {
         dtoWithFile.setDeaprtmentName(detail.getApproval().getWorker().getDepartment().getDepartmentName());
         dtoWithFile.setUrl1(detail.getFileUrl().getUrl1());
         dtoWithFile.setUrl2(detail.getFileUrl().getUrl2());
+        dtoWithFile.setApprovalStatus(detail.getApproval().getApprovalStatus());
 
         return dtoWithFile;
     }
@@ -78,5 +85,20 @@ public class DetailService {
         dto.setDeaprtmentName(detail.getApproval().getWorker().getDepartment().getDepartmentName());
         dto.setMemo(detail.getMemo());
         return dto;
+    }
+    public Detail saveDetailWithApproval(Detail detail, int approvalStatus) {
+        Approval approval = detail.getApproval();
+        if (approval == null) {
+            approval = new Approval();
+            approval.setApprovalStatus(approvalStatus);
+            approval.setSumbitTime(LocalDateTime.now());
+            detail.setApproval(approval);
+        }
+
+        // Approval 객체를 명시적으로 저장
+        Approval savedApproval = approvalRepository.save(approval);
+
+        // Detail 저장 (Approval과 연관)
+        return detailRepository.save(detail);
     }
 }

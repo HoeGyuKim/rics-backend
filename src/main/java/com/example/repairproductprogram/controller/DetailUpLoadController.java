@@ -62,28 +62,31 @@ public class DetailUpLoadController {
     @PostMapping("/reconditioned/upload")
     public ResponseEntity<String> createDetailWithFiles(
             @RequestParam("detailData") String detailDataJson,
+            @RequestParam(value = "approvalStatus", required = false) Integer approvalStatus, // Approval 상태 추가
             @RequestParam(value = "file1", required = false) MultipartFile file1,
             @RequestParam(value = "file2", required = false) MultipartFile file2) {
         try {
             ObjectMapper objectMapper = new ObjectMapper();
             Detail detail = objectMapper.readValue(detailDataJson, Detail.class);
 
+            // 파일 처리
             FileUrl fileUrl = new FileUrl();
-
             if (file1 != null && !file1.isEmpty()) {
                 String fileUrl1 = saveFile(file1);
                 fileUrl.setUrl1(fileUrl1);
             }
-
             if (file2 != null && !file2.isEmpty()) {
                 String fileUrl2 = saveFile(file2);
                 fileUrl.setUrl2(fileUrl2);
             }
-
             detail.setFileUrl(fileUrl);
 
-            // 데이터를 데이터베이스에 저장
-            detailService.saveDetail(detail);
+            // Approval 상태 처리
+            if (approvalStatus != null) {
+                detailService.saveDetailWithApproval(detail, approvalStatus); // Approval 상태 포함 저장
+            } else {
+                detailService.saveDetail(detail); // Approval 상태 없이 저장
+            }
 
             return ResponseEntity.ok("데이터가 성공적으로 저장되었습니다.");
         } catch (Exception e) {
@@ -91,7 +94,6 @@ public class DetailUpLoadController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("데이터 저장 실패: " + e.getMessage());
         }
     }
-
     private String saveFile(MultipartFile file) throws IOException {
         if (file.isEmpty()) {
             throw new IOException("파일이 없습니다.");

@@ -10,16 +10,17 @@ public class DetailDTO {
     private String serialNum;
     private String worker;  // 사원의 이름
     private String manager; // 관리자의 이름
-    private String deprtmentName;
+    private String departmentName;
     private String url1;
     private String url2;
     private String memo;
+    private int approvalStatus;
 
     // 기본 생성자
     public DetailDTO() {}
 
     // 모든 필드를 포함하는 생성자
-    public DetailDTO(Long id, Long productNum, String productName, Date date, String serialNum, String worker, String manager, String departmentName, String url1, String url2, String memo) {
+    public DetailDTO(Long id, Long productNum, String productName, Date date, String serialNum, String worker, String manager, String departmentName, String url1, String url2, String memo, int approvalStatus) {
         this.id = id;
         this.productNum = productNum;
         this.productName = productName;
@@ -27,10 +28,11 @@ public class DetailDTO {
         this.serialNum = serialNum;
         this.worker = worker;
         this.manager = manager;
-        this.deprtmentName = departmentName;
+        this.departmentName = departmentName;
         this.url1 = url1;
         this.url2 = url2;
         this.memo = memo;
+        this.approvalStatus = approvalStatus;
     }
 
     // Getters and Setters
@@ -77,10 +79,10 @@ public class DetailDTO {
         this.manager = manager;
     }
     public String getDeaprtmentName() {
-        return deprtmentName;
+        return departmentName;
     }
     public void setDeaprtmentName(String deaprtmentName) {
-        this.deprtmentName = deaprtmentName;
+        this.departmentName = deaprtmentName;
     }
     public String getUrl1() {
         return url1;
@@ -100,4 +102,11 @@ public class DetailDTO {
     public void setMemo(String memo) {
         this.memo = memo;
     }
+    public int getApprovalStatus() {
+        return approvalStatus;
+    }
+    public void setApprovalStatus(int approvalStatus) {
+        this.approvalStatus = approvalStatus;
+    }
+
 }

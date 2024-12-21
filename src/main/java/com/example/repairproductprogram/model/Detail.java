@@ -23,7 +23,7 @@ public class Detail {
     @Column(name = "memo")
     private String memo;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "approval_id", nullable = true)
     private Approval approval;
 
@@ -108,7 +108,22 @@ public class Detail {
     public String getMemo() { return memo; }
     public void setMemo(String memo) { this.memo = memo; }
     public Approval getApproval() { return approval; }
-    public void setApproval(Approval approval) { this.approval = approval; }
+    @JsonProperty("approvalStatus")
+    public void setApprovalStatus(int approvalStatus) {
+        if (this.approval == null) {
+            this.approval = new Approval();
+        }
+        this.approval.setApprovalStatus(approvalStatus);
+    }
+
+    public int getApprovalStatus() {
+        return (approval != null) ? approval.getApprovalStatus() : 0; // 기본값 0 반환
+    }
+
+
+    public void setApproval(Approval approval) {
+        this.approval = approval;
+    }
 }
 
 
