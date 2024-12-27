@@ -4,7 +4,6 @@ import com.example.repairproductprogram.dto.DetailDTO;
 import com.example.repairproductprogram.model.Detail;
 import com.example.repairproductprogram.model.Member;
 import com.example.repairproductprogram.repository.DetailRepository;
-import com.example.repairproductprogram.repository.UserRepository;
 import com.example.repairproductprogram.service.DetailService;
 import com.example.repairproductprogram.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,13 +17,12 @@ import java.util.stream.Collectors;
 @RestController
 @RequestMapping("/api/reconditioned")
 public class DetailController {
-
     private final DetailService detailService;
     private final DetailRepository detailRepository;
     private final UserService userService;
 
     @Autowired
-    public DetailController(DetailService detailService, DetailRepository detailRepository, UserRepository userRepository, UserService userService) {
+    public DetailController(DetailService detailService, DetailRepository detailRepository, UserService userService) {
         this.detailService = detailService;
         this.detailRepository = detailRepository;
         this.userService = userService;
@@ -42,15 +40,14 @@ public class DetailController {
         }
     }
 
-    @GetMapping("/details")
+    @GetMapping("/details")     // 재생품 목록 날짜순 10개 정렬 표시
     public ResponseEntity<List<DetailDTO>> getDetailsByProductNum(@RequestParam Long productNum) {
-        List<DetailDTO> detailDTOs = detailService.getDetailsByProductNum(productNum);
-        List<DetailDTO> top10Details = detailDTOs.stream()
-                .limit(10)
-                .collect(Collectors.toList());
-        return ResponseEntity.ok(top10Details);
+        List<DetailDTO> detailDTOs = detailService.getDetailsByProductNumTop10(productNum);
+        return ResponseEntity.ok(detailDTOs);
     }
-    @GetMapping("/detailsByWorker")
+
+
+    @GetMapping("/detailsByWorker")     // 작업자에 따라 검색/
     public ResponseEntity <List<DetailDTO>>getDetailsByProductNumAndDate(@RequestParam Long productNum, @RequestParam String workerName){
         Member worker = userService.findByName(workerName);
         if (worker == null) {

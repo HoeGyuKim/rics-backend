@@ -1,12 +1,7 @@
 package com.example.repairproductprogram.model;
 
-import com.example.repairproductprogram.model.Detail;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
-import org.springframework.cglib.core.Local;
-
-import java.sql.Date;
-import java.sql.Time;
 import java.time.LocalDateTime;
 
 @Entity
@@ -17,39 +12,35 @@ public class Approval {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-
     @Column(name = "approval_status")
-    private int approvalStatus; //1.상신 2.삭제신청 3.승인 4.반려
+    private int approvalStatus; // 1.상신 2.1차검토완료 3.승인 4.반려 5.삭제신청 6. 삭제1차검토완료
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "worker_num", nullable = false)
     private Member worker;
 
-    @Column(name = "sumbit_date")
-    private LocalDateTime sumbitTime;
+    @Column(name = "sumbit_time")
+    private LocalDateTime submitTime;
 
-    @ManyToOne
-    @JoinColumn(name = "manager_num", nullable = false)
-    private Member manager;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "middle_manager_num", nullable = false)
+    private Member middleManager;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "last_manager_num", nullable = false)
+    private Member lastManager;
 
     @Column(name = "approval_date")
     private LocalDateTime approvalTime;
 
 
-    public LocalDateTime getSumbitTime() {
-        return sumbitTime;
+    // Getters and Setters
+    public Long getId() {
+        return id;
     }
 
-    public void setSumbitTime(LocalDateTime datetime) {
-        this.sumbitTime = datetime;
-    }
-
-    public LocalDateTime getApprovalTime() {
-        return approvalTime;
-    }
-
-    public void setApprovalTime(LocalDateTime datetime) {
-        this.approvalTime = datetime;
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public int getApprovalStatus() {
@@ -60,14 +51,6 @@ public class Approval {
         this.approvalStatus = approvalStatus;
     }
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
     public Member getWorker() {
         return worker;
     }
@@ -76,11 +59,51 @@ public class Approval {
         this.worker = worker;
     }
 
-    public Member getManager() {
-        return manager;
+    public Member getMiddleManager() {
+        return middleManager;
     }
 
-    public void setManager(Member manager) {
-        this.manager = manager;
+    public void setMiddleManager(Member middleManager) {
+        this.middleManager = middleManager;
+    }
+
+    public Member getLastManager() {
+        return lastManager;
+    }
+
+    public void setLastManager(Member lastManager) {
+        this.lastManager = lastManager;
+    }
+
+    public LocalDateTime getSubmitTime() {
+        return submitTime;
+    }
+
+    public void setSubmitTime(LocalDateTime submitTime) {
+        this.submitTime = submitTime;
+    }
+
+    public LocalDateTime getApprovalTime() {
+        return approvalTime;
+    }
+
+    public void setApprovalTime(LocalDateTime approvalTime) {
+        this.approvalTime = approvalTime;
+    }
+
+    // JSON serialization/deserialization helpers
+    @JsonProperty("workerNum")
+    public void setWorkerByNum(Long workerNum) {
+        this.worker = new Member(workerNum);
+    }
+
+    @JsonProperty("middleManagerNum")
+    public void setMiddleManagerByNum(Long middleManagerNum) {
+        this.middleManager = new Member(middleManagerNum);
+    }
+
+    @JsonProperty("lastManagerNum")
+    public void setLastManagerByNum(Long lastManagerNum) {
+        this.lastManager = new Member(lastManagerNum);
     }
 }

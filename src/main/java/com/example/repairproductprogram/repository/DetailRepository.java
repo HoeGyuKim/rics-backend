@@ -8,14 +8,18 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
-import java.sql.Date;
 import java.util.List;
 
 @Repository
 public interface DetailRepository extends JpaRepository<Detail, Long> {
+    // 기존 메서드 유지
     List<Detail> findByProductListProductNum(Long productNum);
 
-    List<Detail> findByProductListProductNumAndWorker(Long productNum, Member worker);
+    // Approval을 통해 Worker로 조회
+    @Query("SELECT d FROM Detail d WHERE d.approval.worker = :worker AND d.productList.productNum = :productNum")
+    List<Detail> findByProductListProductNumAndWorker(@Param("productNum") Long productNum, @Param("worker") Member worker);
 
-    List<Detail> findByProductListProductNumAndSerialNum(Long productNum, String serialNum);
+    // Approval을 통해 SerialNum으로 조회
+    @Query("SELECT d FROM Detail d WHERE d.serialNum = :serialNum AND d.productList.productNum = :productNum")
+    List<Detail> findByProductListProductNumAndSerialNum(@Param("productNum") Long productNum, @Param("serialNum") String serialNum);
 }

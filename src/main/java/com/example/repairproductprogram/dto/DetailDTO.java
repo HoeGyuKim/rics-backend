@@ -8,8 +8,9 @@ public class DetailDTO {
     private String productName;
     private Date date;
     private String serialNum;
-    private String worker;  // 사원의 이름
-    private String manager; // 관리자의 이름
+    private String workerName;  // 사원의 이름
+    private String middleManagerName; // 관리자의 이름
+    private String lastManagerName;
     private String departmentName;
     private String url1;
     private String url2;
@@ -20,20 +21,21 @@ public class DetailDTO {
     public DetailDTO() {}
 
     // 모든 필드를 포함하는 생성자
-    public DetailDTO(Long id, Long productNum, String productName, Date date, String serialNum, String worker, String manager, String departmentName, String url1, String url2, String memo, int approvalStatus) {
+    public DetailDTO(Long id, Long productNum, String productName, Date date, String serialNum, String workerName, String middleManagerName, String lastManagerName, String departmentName, String memo, int approvalStatus) {
         this.id = id;
         this.productNum = productNum;
         this.productName = productName;
         this.date = date;
         this.serialNum = serialNum;
-        this.worker = worker;
-        this.manager = manager;
+        this.workerName = workerName;
+        this.middleManagerName = middleManagerName;
+        this.lastManagerName = lastManagerName;
         this.departmentName = departmentName;
-        this.url1 = url1;
-        this.url2 = url2;
         this.memo = memo;
         this.approvalStatus = approvalStatus;
     }
+
+
 
     // Getters and Setters
     public Long getId() {
@@ -66,23 +68,23 @@ public class DetailDTO {
     public void setSerialNum(String serialNum) {
         this.serialNum = serialNum;
     }
-    public String getWorker() {
-        return worker;
+    public String getWorkerName() {
+        return workerName;
     }
-    public void setWorker(String worker) {
-        this.worker = worker;
+    public void setWorkerName(String workerName) {
+        this.workerName = workerName;
     }
-    public String getManager() {
-        return manager;
+    public String getMiddleManagerName() {
+        return middleManagerName;
     }
-    public void setManager(String manager) {
-        this.manager = manager;
+    public void setMiddleManagerName(String middleManagerName) {
+        this.middleManagerName = middleManagerName;
     }
-    public String getDeaprtmentName() {
+    public String getDepartmentName() {
         return departmentName;
     }
-    public void setDeaprtmentName(String deaprtmentName) {
-        this.departmentName = deaprtmentName;
+    public void setDeprtmentName(String departmentName) {
+        this.departmentName = departmentName;
     }
     public String getUrl1() {
         return url1;

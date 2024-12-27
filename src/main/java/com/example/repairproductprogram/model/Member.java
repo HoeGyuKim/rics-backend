@@ -21,12 +21,12 @@ public class Member {
     private Department department;  // 부서 정보
 
     // 기본 생성자
-    public Member() {}
-
-    // 생성자
-    public Member(String name, Long employeeNum) {
-        this.name = name;
+    public Member(Long employeeNum) {
         this.employeeNum = employeeNum;
+    }
+
+    public Member() {
+
     }
 
     // Getter와 Setter
@@ -45,7 +45,12 @@ public class Member {
     public void setName(String name) {
         this.name = name;
     }
+    public boolean getIsManager(){
+        return isManager;
+    }
+    public void setIsManager(){
 
+    }
     public Department getDepartment() {
         return department;
     }
